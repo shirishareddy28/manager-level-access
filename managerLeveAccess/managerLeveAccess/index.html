@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>ALTER </title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1em;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: #f1f1f1;
+      padding: 1em;
+    }
+
+    section {
+      padding: 1em;
+    }
+
+    .order-card {
+      border: 1px solid #ccc;
+      margin-bottom: 1em;
+      padding: 1em;
+    }
+
+    @media screen and (max-width: 768px) {
+      nav {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Admin board</h1>
+  </header>
+
+  <nav>
+    <a href="#" id="home">Home</a>
+    <a href="#" id="users"> Users</a>
+    <a href="#" id="Orders"> Orders</a>
+    <a href="#" id="Payments">Payments</a>
+  </nav>
+
+  <section>
+    <h2>users List</h2>
+    <div id="usersList"></div>
+  </section>
+  
+
+  <script>
+    // Fetch orders from the backend API
+    async function fetchUsers() {
+      try {
+        const response = await fetch('your_backend_api_endpoint');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    }
+
+    // Render orders on the page
+    async function renderUsers() {
+      const usersList = document.getElementById('usersList');
+      const users = await fetchUsers();
+
+      if (users && users.length > 0) {
+       usersList.innerHTML = '';
+        users.forEach(order => {
+          const userCard = document.createElement('div');
+          userCard.classList.add('user-card');
+
+          // Customize the order card structure based on your datab
+          userCard.innerHTML = `
+            <h3>User ID: ${user.UserId}</h3>
+            <p>Customer: ${order.customerName}</p>
+            <p>Delivery Boy: ${order.deliveryBoyName}</p>
+            <p>Address: ${order.deliveryAddress}</p>
+            <p>Amount: ${order.amount}</p>
+          `;
+
+          usersList.appendChild(userCard);
+        });
+      } else {
+        usersList.innerHTML = '<p>No orders available.</p>';
+      }
+    }
+
+    // Attach event listeners to navigation links
+    document.getElementById('home').addEventListener('click', renderOrders);
+    document.getElementById('users').addEventListener('click', /* Add search functionality */);
+    document.getElementById('orders').addEventListener('click', renderOrders);
+    document.getElementById('cash').addEventListener('click', /* Add cash functionality */);
+
+    // Initial render
+    renderOrders();
+  </script>
+</body>
+</html>
+
